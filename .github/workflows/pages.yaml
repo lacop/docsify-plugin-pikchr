@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+  # YOLO mode for testing page changes without merging the PR.
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   deploy-pages:

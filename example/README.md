@@ -1,6 +1,6 @@
 # docsify-plugin-pikchr
 
-To use download `pikchr.js` and `docsify-plugin-pikchr.js` files from TODO, and load them in your `index.html`:
+To use download `pikchr.js` and `docsify-plugin-pikchr.js` files from [dist/](https://github.com/lacop/docsify-plugin-pikchr/tree/main/dist), and load them in your `index.html`:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
