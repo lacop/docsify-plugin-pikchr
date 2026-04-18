@@ -24,6 +24,42 @@
         }
     }
 
+    function postprocessLinks(container) {
+        var texts = container.querySelectorAll("text");
+        var scratch = document.createElement("span");
+        texts.forEach(function (textEl) {
+            var original = textEl.textContent;
+            var html = marked.parseInline(original);
+            if (html === original) return;
+
+            // Parse the compiled HTML to walk its nodes
+            scratch.innerHTML = html;
+
+            // If the entire text is a single link, wrap the whole <text> in <a>
+            if (scratch.childNodes.length === 1 && scratch.firstChild.tagName === "A") {
+                var a = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                a.setAttribute("href", scratch.firstChild.getAttribute("href"));
+                textEl.parentNode.insertBefore(a, textEl);
+                a.appendChild(textEl);
+                textEl.textContent = scratch.firstChild.textContent;
+                return;
+            }
+
+            // Mixed content: rebuild with text nodes and <a> elements
+            textEl.textContent = "";
+            Array.prototype.forEach.call(scratch.childNodes, function (node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    textEl.appendChild(document.createTextNode(node.textContent));
+                } else if (node.tagName === "A") {
+                    var a = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                    a.setAttribute("href", node.getAttribute("href"));
+                    a.textContent = node.textContent;
+                    textEl.appendChild(a);
+                }
+            });
+        });
+    }
+
     function plugin(hook) {
         hook.doneEach(function () {
             var blocks = document.querySelectorAll(
@@ -39,6 +75,7 @@
                     var container = document.createElement("div");
                     container.className = "pikchr-diagram";
                     container.innerHTML = result.svg;
+                    postprocessLinks(container);
                     if (result.width > 0 && result.height > 0) {
                         container.style.maxWidth = result.width + "px";
                     }

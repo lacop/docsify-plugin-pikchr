@@ -10,9 +10,22 @@ To use download `pikchr.js` and `docsify-plugin-pikchr.js` files from [dist/](ht
 
 Then wrap diagrams in code blocks with the `pikchr` language tag.
 
-## Examples
+## Link support
 
-Diagram examples taken from <https://pikchr.org/home/doc/trunk/doc/examples.md>.
+While `pikchr` does not support links ([discussion](https://pikchr.org/home/info/10445c6e4ed23802011901b428eea4ffac10f96f317d8af68a2e20d779595c83)), this plugin will replace Markdown links in diagram labels.
+
+Here is an example:
+
+```pikchr
+right
+box "The [link](https://example.com) can" "be part of the label" wid 150%
+arrow
+box same "[Or the whole label](another-page)"
+```
+
+## More examples
+
+Diagram examples taken from <https://pikchr.org/home/doc/trunk/doc/examples.md>. View the page source for the code.
 
 ```pikchr
     lineht *= 0.4
